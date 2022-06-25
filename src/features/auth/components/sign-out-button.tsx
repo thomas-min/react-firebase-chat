@@ -1,10 +1,15 @@
+import { Button } from '@chakra-ui/react';
 import { getAuth } from 'firebase/auth';
 import { useCallback } from 'react';
 
-export const SignOut: React.FC = () => {
+export const SignOutButton: React.FC = () => {
   const handleClick = useCallback(() => {
     getAuth().signOut();
   }, []);
 
-  return <button onClick={handleClick}>Sign Out</button>;
+  return (
+    <Button colorScheme='gray' variant='outline' onClick={handleClick}>
+      Sign Out
+    </Button>
+  );
 };

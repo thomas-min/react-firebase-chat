@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '../configs/app';
 
@@ -7,10 +8,10 @@ interface RequireAuthProps {
 }
 
 const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
-  const auth = getAuth();
+  const [user] = useAuthState(getAuth());
   const location = useLocation();
 
-  if (!auth.currentUser) {
+  if (!user) {
     return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
   }
 
