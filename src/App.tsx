@@ -1,22 +1,42 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-
-import { useAuthState } from 'react-firebase-hooks/auth';
-import * as FIREBASE from './configs/firebase';
-import { SignInButton } from './features/auth/components/sign-in-button';
-import { ChatRoom } from './features/chat/components/chat-room';
-
-initializeApp(FIREBASE.CONFIG);
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import RequireAuth from './app/components/require-auth';
+import { ROUTES } from './app/configs/app';
+import { ChatPage } from './routes/chat';
+import { HomePage } from './routes/home';
+import { LoginPage } from './routes/login';
+import { SearchPage } from './routes/search';
 
 const App: React.FC = () => {
-  const auth = getAuth();
-  const [user] = useAuthState(auth);
-
   return (
-    <div className='App'>
-      <header></header>
-      <section>{user ? <ChatRoom /> : <SignInButton />}</section>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+        <Route
+          path={ROUTES.HOME}
+          element={
+            <RequireAuth>
+              <HomePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={ROUTES.SEARCH}
+          element={
+            <RequireAuth>
+              <SearchPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={ROUTES.CHAT}
+          element={
+            <RequireAuth>
+              <ChatPage />
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
