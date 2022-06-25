@@ -6,7 +6,7 @@ interface PageProps {
 
 export const PageContainer: React.FC<PageProps> = ({ children }) => {
   return (
-    <Box w='100vw' h='100vh' bg='gray.100'>
+    <Box w='100vw' h='100vh' bg='gray.100' overflowY='scroll'>
       <Container p={0} h='full' maxW='container.sm' bg='white'>
         {children}
       </Container>
