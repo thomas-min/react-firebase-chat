@@ -5,14 +5,17 @@ import { initializeApp } from 'firebase/app';
 import * as FIREBASE from '~/app/configs/firebase';
 
 import App from './App';
+import { RecoilRoot } from 'recoil';
 
 initializeApp(FIREBASE.CONFIG);
 
 const rootElement = document.getElementById('root');
 ReactDOM.createRoot(rootElement!).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
+    <RecoilRoot>
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
+    </RecoilRoot>
   </React.StrictMode>,
 );
