@@ -5,9 +5,8 @@ import { ROUTES } from './app/configs/app';
 import { ChatPage } from './routes/chat';
 import { HomePage } from './routes/home';
 import { LoginPage } from './routes/login';
-import { SearchPage } from './routes/search';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <PageContainer>
       <BrowserRouter>
@@ -18,14 +17,6 @@ const App: React.FC = () => {
             element={
               <RequireAuth>
                 <HomePage />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path={ROUTES.SEARCH}
-            element={
-              <RequireAuth>
-                <SearchPage />
               </RequireAuth>
             }
           />
