@@ -1,4 +1,4 @@
-import { Box, Center, HStack, Text, Image, AspectRatio } from '@chakra-ui/react';
+import { Box, Center, HStack, Text, Image } from '@chakra-ui/react';
 
 const GuideIcon = () => {
   return (
@@ -21,9 +21,7 @@ interface UserIconProps {
 const UserIcon: React.FC<UserIconProps> = ({ imgSrc, name }) => {
   return (
     <Box textAlign='center' cursor='pointer'>
-      <AspectRatio maxW={12} ratio={1}>
-        <Image borderRadius={100} src={imgSrc} alt={imgSrc} boxSize={12} mx='auto' />
-      </AspectRatio>
+      <Image borderRadius={100} src={imgSrc} alt={imgSrc} maxW={12} boxSize={12} mx='auto' />
       <Text color='gray.900' fontSize='xx-small' mt={1}>
         {name}
       </Text>

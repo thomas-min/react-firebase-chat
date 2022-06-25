@@ -8,7 +8,7 @@ export const SignOutButton: React.FC = () => {
   }, []);
 
   return (
-    <Button colorScheme='gray' variant='outline' onClick={handleClick}>
+    <Button colorScheme='gray' variant='solid' onClick={handleClick}>
       Sign Out
     </Button>
   );
