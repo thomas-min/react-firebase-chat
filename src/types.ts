@@ -9,4 +9,7 @@ export interface Message {
 export type User = UserInfo;
 export interface Room {
   uid: string;
+  users: {
+    [key: string]: boolean;
+  };
 }
