@@ -1,7 +1,7 @@
-import { UserInfo } from 'firebase/auth';
 import { atom } from 'recoil';
+import { User } from '~/types';
 
-export const searchResultState = atom<UserInfo[]>({
+export const searchResultState = atom<User[]>({
   key: 'userSearchResult',
   default: [],
 });

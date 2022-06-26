@@ -13,9 +13,9 @@ export const SignInButton: React.FC = () => {
     const provider = new GoogleAuthProvider();
     const signInResult = await signInWithPopup(auth, provider);
 
-    const userInfo = signInResult.user.providerData[0];
+    const user = signInResult.user.providerData[0];
 
-    upsertUser(userInfo);
+    upsertUser(user);
   }, [auth, upsertUser]);
 
   return (

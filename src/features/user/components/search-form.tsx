@@ -19,6 +19,7 @@ export const UserSearchForm = () => {
       e.preventDefault();
       const users = await getUsers(inputValue);
       setSearchResult(users);
+      setInputValue('');
     },
     [getUsers, inputValue, setSearchResult],
   );

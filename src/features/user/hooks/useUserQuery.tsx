@@ -1,4 +1,3 @@
-import { UserInfo } from 'firebase/auth';
 import {
   collection,
   CollectionReference,
@@ -11,31 +10,32 @@ import {
 } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
 import { useFireBase } from '~/app/hooks/useFirebase';
+import { User } from '~/types';
 
 export const useUserQuery = () => {
   const { store, auth } = useFireBase();
   const [_collection] = useState(
-    collection(store, 'users') as CollectionReference<UserInfo>,
+    collection(store, 'users') as CollectionReference<User>,
   );
 
   const upsertUser = useCallback(
-    (userInfo: UserInfo) => {
-      const usersDocument = doc(
+    (user: User): void => {
+      const _document = doc(
         store,
         'users',
-        userInfo.uid,
-      ) as DocumentReference<UserInfo>;
-      setDoc(usersDocument, userInfo);
+        user.uid,
+      ) as DocumentReference<User>;
+      setDoc(_document, user);
     },
     [store],
   );
 
   const getUsers = useCallback(
-    async (email: string) => {
+    async (email: string): Promise<User[]> => {
       const _query = query(_collection, where('email', '==', email));
-      const snapshot = await getDocs(_query);
+      const _snapshot = await getDocs(_query);
 
-      return snapshot.docs
+      return _snapshot.docs
         .map((el) => el.data())
         .filter((el) => el.email !== auth.currentUser?.email);
     },
