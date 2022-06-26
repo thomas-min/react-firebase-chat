@@ -45,8 +45,8 @@ const checkExisting = async (from: User, to: User): Promise<Room | null> => {
 
   const _query = query(
     _collection,
-    where(`${RESOURCES.USERS}.${from.uid}`, '==', true),
-    where(`${RESOURCES.USERS}.${to.uid}`, `==`, true),
+    where(`${RESOURCES.USERS}.${from.uid}`, '==', from),
+    where(`${RESOURCES.USERS}.${to.uid}`, `==`, to),
   );
 
   const _snapshot = await getDocs(_query);
@@ -63,7 +63,7 @@ export const createRoom = async (from: User, to: User): Promise<Room> => {
 
   const uid = uuid();
   const _document = doc(store, RESOURCES.ROOMS, uid) as DocumentReference<Room>;
-  const room: Room = { uid, users: { [from.uid]: true, [to.uid]: true } };
+  const room: Room = { uid, users: { [from.uid]: from, [to.uid]: to } };
   await setDoc(_document, room);
 
   await Promise.all([link(from, room), link(to, room)]);

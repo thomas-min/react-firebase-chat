@@ -12,6 +12,6 @@ export type User = UserInfo;
 export interface Room {
   uid: string;
   users: {
-    [key: string]: boolean;
+    [key: string]: User;
   };
 }
