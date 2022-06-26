@@ -1,5 +1,10 @@
 import { Box, CloseButton, Flex, Image, Text } from '@chakra-ui/react';
-import { collection, CollectionReference, limit, query } from 'firebase/firestore';
+import {
+  collection,
+  CollectionReference,
+  limit,
+  query,
+} from 'firebase/firestore';
 import { useCallback } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +28,14 @@ const Header: React.FC<HeaderProps> = ({ imgSrc, name, email }) => {
   return (
     <Sticky>
       <Flex w='full' py='4' bg='white'>
-        <Image borderRadius='100' src={imgSrc} alt={imgSrc} boxSize='12' mx='auto' mr='4' />
+        <Image
+          borderRadius='100'
+          src={imgSrc}
+          alt={imgSrc}
+          boxSize='12'
+          mx='auto'
+          mr='4'
+        />
         <Box flexGrow='1'>
           <Text flexGrow='1' color='teal' fontWeight='600'>
             {name}
@@ -56,14 +68,21 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 
 export const MessageList = () => {
   const { store } = useFireBase();
-  const messagesCollection = collection(store, 'messages') as CollectionReference<MessageDto>;
+  const messagesCollection = collection(
+    store,
+    'messages',
+  ) as CollectionReference<MessageDto>;
 
   const messagesQuery = query(messagesCollection, limit(25));
   const [messagesSnapshot] = useCollection(messagesQuery);
 
   return (
     <Box px='6' flexGrow='1' overflow='scroll'>
-      <Header name='Dan Abramov' imgSrc='https://bit.ly/dan-abramov' email={'dan@gmail.com'} />
+      <Header
+        name='Dan Abramov'
+        imgSrc='https://bit.ly/dan-abramov'
+        email={'dan@gmail.com'}
+      />
       <Box>
         {messagesSnapshot?.docs.map((doc) => (
           <Message key={doc.id} message={doc.data()} />

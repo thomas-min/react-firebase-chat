@@ -6,7 +6,10 @@ import { Message } from '~/types';
 
 export const MessageForm = () => {
   const { auth, store } = useFireBase();
-  const messagesCollection = collection(store, 'messages') as CollectionReference<Message>;
+  const messagesCollection = collection(
+    store,
+    'messages',
+  ) as CollectionReference<Message>;
   const [formValue, setFormValue] = useState('');
 
   const handleSubmit = useCallback(
@@ -26,9 +29,12 @@ export const MessageForm = () => {
     [auth.currentUser, formValue, messagesCollection],
   );
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValue(e.target.value);
-  }, []);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormValue(e.target.value);
+    },
+    [],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
