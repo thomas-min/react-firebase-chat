@@ -5,8 +5,15 @@ import { ROUTES } from './app/configs/app';
 import { ChatPage } from './routes/chat';
 import { HomePage } from './routes/home';
 import { LoginPage } from './routes/login';
+import { useEffect } from 'react';
+import { setScreenSize } from './app/utils/screenSize';
 
 const App = () => {
+  useEffect(() => {
+    window.addEventListener('resize', setScreenSize);
+    setScreenSize();
+  }, []);
+
   return (
     <PageContainer>
       <BrowserRouter>
