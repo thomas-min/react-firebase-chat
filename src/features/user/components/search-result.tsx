@@ -1,7 +1,8 @@
 import { Box, Center, HStack, Text, Image } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { useRoomQuery } from '~/features/chat/hooks/useRoomQuery';
+import { getFirebase } from '~/app/utils/firebase';
+import { createRoom } from '~/features/chat/services/rooms';
 import { User } from '~/types';
 import { searchResultState } from '../atoms/search-result-state';
 
@@ -29,11 +30,16 @@ interface UserIconProps {
 }
 
 const UserIcon: React.FC<UserIconProps> = ({ user }) => {
-  const { createRoom } = useRoomQuery();
-
   const handleClick = useCallback(() => {
-    createRoom(user);
-  }, [createRoom, user]);
+    const { auth } = getFirebase();
+
+    const from = auth.currentUser?.providerData[0];
+    const to = user;
+
+    if (!from) return;
+
+    createRoom(from, to);
+  }, [user]);
 
   return (
     <Box textAlign='center' cursor='pointer' onClick={handleClick}>

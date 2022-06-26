@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '~/app/configs/app';
 import { SubTitle } from '~/app/components/sub-title';
-import { useRoomQuery } from '../hooks/useRoomQuery';
-import { Room } from '~/types';
+import { useRoomsData } from '../hooks/useRoomsData';
 
 interface RecentItemProps {
   imgSrc: string;
@@ -49,26 +48,12 @@ const RecentItem: React.FC<RecentItemProps> = ({
 };
 
 export const RecentList = () => {
-  const { getAllRooms } = useRoomQuery();
-  const [rooms, setRooms] = useState<Room[]>([]);
-
-  useEffect(() => {
-    const loadRooms = async () => {
-      const rooms = await getAllRooms();
-      if (rooms) setRooms(rooms);
-    };
-
-    loadRooms();
-  }, [getAllRooms]);
-
-  console.log(rooms);
+  const rooms = useRoomsData();
 
   return (
     <Box w='full'>
       <SubTitle value='Recent' />
-      {rooms.map((room) => (
-        <div key={room.uid}>{room.uid}</div>
-      ))}
+      {rooms && rooms.map((room) => <div key={room.uid}>{room.uid}</div>)}
     </Box>
   );
 };
