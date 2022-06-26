@@ -1,4 +1,4 @@
-import { getFirebase } from '~/app/utils/firebase';
+import { getCurrentUser, getFirebase } from '~/app/utils/firebase';
 import { Message, Room } from '~/app/types';
 import { v4 as uuid } from 'uuid';
 import { RESOURCES } from '~/app/configs/resources';
@@ -11,8 +11,8 @@ import {
 } from 'firebase/firestore';
 
 export const sendMessage = async (text: string, room: Room) => {
-  const { store, auth } = getFirebase();
-  const user = auth.currentUser?.providerData[0];
+  const { store } = getFirebase();
+  const user = getCurrentUser();
 
   if (!user) return;
 

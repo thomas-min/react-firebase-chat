@@ -1,12 +1,12 @@
 import { collection, CollectionReference } from 'firebase/firestore';
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { getFirebase } from '~/app/utils/firebase';
+import { getCurrentUserId, getFirebase } from '~/app/utils/firebase';
 import { Room } from '~/app/types';
 
 export const useRoomData = () => {
-  const { store, auth } = getFirebase();
-  const uid = auth.currentUser?.providerData[0].uid;
+  const { store } = getFirebase();
+  const uid = getCurrentUserId();
 
   const _collection = collection(
     store,

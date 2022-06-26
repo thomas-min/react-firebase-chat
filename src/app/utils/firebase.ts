@@ -9,3 +9,12 @@ export const getFirebase = () => {
 
   return { app, store, auth };
 };
+
+export const getCurrentUser = () => {
+  const { auth } = getFirebase();
+  return auth.currentUser?.providerData[0];
+};
+
+export const getCurrentUserId = () => {
+  return getCurrentUser()?.uid;
+};
