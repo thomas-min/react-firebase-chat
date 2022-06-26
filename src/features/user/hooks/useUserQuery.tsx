@@ -3,31 +3,20 @@ import {
   CollectionReference,
   doc,
   DocumentReference,
+  getDoc,
   getDocs,
   query,
-  setDoc,
   where,
 } from 'firebase/firestore';
 import { useCallback, useMemo } from 'react';
+import { RESOURCES } from '~/app/configs/resources';
 import { getFirebase } from '~/app/utils/firebase';
 import { User } from '~/types';
 
 export const useUserQuery = () => {
   const { store, auth } = getFirebase();
   const _collection = useMemo(
-    () => collection(store, 'users') as CollectionReference<User>,
-    [store],
-  );
-
-  const upsertUser = useCallback(
-    (user: User): void => {
-      const _document = doc(
-        store,
-        'users',
-        user.uid,
-      ) as DocumentReference<User>;
-      setDoc(_document, user);
-    },
+    () => collection(store, RESOURCES.USERS) as CollectionReference<User>,
     [store],
   );
 
@@ -43,5 +32,19 @@ export const useUserQuery = () => {
     [_collection, auth.currentUser?.email],
   );
 
-  return { upsertUser, getUsers };
+  const getUser = useCallback(
+    async (uid: string): Promise<User | undefined> => {
+      const _document = doc(
+        store,
+        RESOURCES.USERS,
+        uid,
+      ) as DocumentReference<User>;
+      const snapshot = await getDoc(_document);
+
+      return snapshot.data();
+    },
+    [store],
+  );
+
+  return { getUsers, getUser };
 };
