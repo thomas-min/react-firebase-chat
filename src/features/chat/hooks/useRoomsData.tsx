@@ -8,11 +8,11 @@ export const useRoomsData = () => {
   const { store, auth } = getFirebase();
   const uid = auth.currentUser?.providerData[0].uid;
 
-  const reference = collection(
+  const _collection = collection(
     store,
     `users/${uid}/rooms`,
   ) as CollectionReference<Room>;
 
-  const [rooms] = useCollectionData(reference);
+  const [rooms] = useCollectionData(_collection);
   return rooms;
 };
