@@ -1,7 +1,7 @@
 import { Button, Flex, Input } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { roomState } from '~/app/atoms/room-state';
+import { roomState } from '~/app/store/room-state';
 import { sendMessage } from '../services/messages';
 
 export const MessageForm = () => {

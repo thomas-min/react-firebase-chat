@@ -7,7 +7,7 @@ import { useRoomData } from '../hooks/useRoomData';
 import { Room } from '~/app/types';
 import { getFriend } from '../utils/getFriend';
 import { useSetRecoilState } from 'recoil';
-import { roomState } from '~/app/atoms/room-state';
+import { roomState } from '~/app/store/room-state';
 import { useMessageData } from '../hooks/useMessageData';
 import { parseDate } from '../utils/parseDate';
 

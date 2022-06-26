@@ -2,12 +2,12 @@ import { Box, Center, HStack, Text, Image } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { roomState } from '~/app/atoms/room-state';
+import { roomState } from '~/app/store/room-state';
 import { ROUTES } from '~/app/configs/app';
 import { getCurrentUser } from '~/app/utils/firebase';
 import { createRoom } from '~/features/chat/services/rooms';
 import { User } from '~/app/types';
-import { searchResultState } from '../atoms/search-result-state';
+import { searchResultState } from '../store/search-result-state';
 
 const GuideIcon = () => {
   return (

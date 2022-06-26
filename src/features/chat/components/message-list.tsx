@@ -2,7 +2,7 @@ import { Box, CloseButton, Flex, Image, Text } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { roomState } from '~/app/atoms/room-state';
+import { roomState } from '~/app/store/room-state';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
 import { Message as MessageDto } from '~/app/types';

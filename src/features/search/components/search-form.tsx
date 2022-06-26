@@ -2,7 +2,7 @@ import { Box, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useUserQuery } from '../../../app/hooks/useUserQuery';
-import { searchResultState } from '../atoms/search-result-state';
+import { searchResultState } from '../store/search-result-state';
 import { useSetRecoilState } from 'recoil';
 
 export const UserSearchForm = () => {

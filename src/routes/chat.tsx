@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { roomState } from '~/app/atoms/room-state';
+import { roomState } from '~/app/store/room-state';
 import { ROUTES } from '~/app/configs/app';
 import { MessageForm } from '~/features/chat/components/message-form';
 import { MessageList } from '~/features/chat/components/message-list';
