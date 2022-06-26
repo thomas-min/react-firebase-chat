@@ -9,11 +9,11 @@ import {
   where,
 } from 'firebase/firestore';
 import { useCallback, useMemo } from 'react';
-import { useFireBase } from '~/app/hooks/useFirebase';
+import { getFirebase } from '~/app/utils/firebase';
 import { User } from '~/types';
 
 export const useUserQuery = () => {
-  const { store, auth } = useFireBase();
+  const { store, auth } = getFirebase();
   const _collection = useMemo(
     () => collection(store, 'users') as CollectionReference<User>,
     [store],

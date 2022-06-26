@@ -10,7 +10,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
-import { useFireBase } from '~/app/hooks/useFirebase';
+import { getFirebase } from '~/app/utils/firebase';
 import { Message as MessageDto } from '~/types';
 
 interface HeaderProps {
@@ -67,7 +67,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 };
 
 export const MessageList = () => {
-  const { store } = useFireBase();
+  const { store } = getFirebase();
   const messagesCollection = collection(
     store,
     'messages',
