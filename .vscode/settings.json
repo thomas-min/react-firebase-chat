@@ -5,5 +5,5 @@
   "editor.formatOnPaste": false,
   // Runs Prettier, then ESLint
   "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
-  "cSpell.words": ["Chakra", "firestore"]
+  "cSpell.words": ["Chakra", "firestore", "upsert"]
 }
