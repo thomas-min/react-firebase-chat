@@ -1,8 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '~/app/configs/app';
 import { SubTitle } from '~/app/components/sub-title';
+import { useRoomQuery } from '../hooks/useRoomQuery';
+import { Room } from '~/types';
 
 interface RecentItemProps {
   imgSrc: string;
@@ -47,99 +49,26 @@ const RecentItem: React.FC<RecentItemProps> = ({
 };
 
 export const RecentList = () => {
+  const { getAllRooms } = useRoomQuery();
+  const [rooms, setRooms] = useState<Room[]>([]);
+
+  useEffect(() => {
+    const loadRooms = async () => {
+      const rooms = await getAllRooms();
+      if (rooms) setRooms(rooms);
+    };
+
+    loadRooms();
+  }, [getAllRooms]);
+
+  console.log(rooms);
+
   return (
     <Box w='full'>
       <SubTitle value='Recent' />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
-      <RecentItem
-        imgSrc='https://bit.ly/dan-abramov'
-        name='Dan Abramov'
-        message='hello world!'
-        date={new Date()}
-      />
+      {rooms.map((room) => (
+        <div key={room.uid}>{room.uid}</div>
+      ))}
     </Box>
   );
 };

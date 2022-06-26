@@ -1,6 +1,8 @@
 import { Box, Center, HStack, Text, Image } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { useRoomQuery } from '~/features/chat/hooks/useRoomQuery';
+import { User } from '~/types';
 import { searchResultState } from '../atoms/search-result-state';
 
 const GuideIcon = () => {
@@ -23,23 +25,28 @@ const GuideIcon = () => {
 };
 
 interface UserIconProps {
-  imgSrc: string;
-  name: string;
+  user: User;
 }
 
-const UserIcon: React.FC<UserIconProps> = ({ imgSrc, name }) => {
+const UserIcon: React.FC<UserIconProps> = ({ user }) => {
+  const { createRoom } = useRoomQuery();
+
+  const handleClick = useCallback(() => {
+    createRoom(user);
+  }, [createRoom, user]);
+
   return (
-    <Box textAlign='center' cursor='pointer'>
+    <Box textAlign='center' cursor='pointer' onClick={handleClick}>
       <Image
         borderRadius={100}
-        src={imgSrc}
-        alt={imgSrc}
+        src={user.photoURL!}
+        alt={user.photoURL!}
         maxW={12}
         boxSize={12}
         mx='auto'
       />
       <Text color='gray.900' fontSize='xx-small' mt={1}>
-        {name}
+        {user.displayName}
       </Text>
     </Box>
   );
@@ -55,8 +62,8 @@ export const UserSearchResult = () => {
   return (
     <HStack my={6} overflow={'scroll'}>
       <GuideIcon />
-      {searchResult.map((el) => (
-        <UserIcon key={el.uid} imgSrc={el.photoURL!} name={el.displayName!} />
+      {searchResult.map((user) => (
+        <UserIcon key={user.uid} user={user} />
       ))}
     </HStack>
   );

@@ -8,14 +8,15 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useFireBase } from '~/app/hooks/useFirebase';
 import { User } from '~/types';
 
 export const useUserQuery = () => {
   const { store, auth } = useFireBase();
-  const [_collection] = useState(
-    collection(store, 'users') as CollectionReference<User>,
+  const _collection = useMemo(
+    () => collection(store, 'users') as CollectionReference<User>,
+    [store],
   );
 
   const upsertUser = useCallback(

@@ -1,12 +1,12 @@
 import { getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { useState } from 'react';
+import { useMemo } from 'react';
 
 export const useFireBase = () => {
-  const [app] = useState(getApp());
-  const [store] = useState(getFirestore(getApp()));
-  const [auth] = useState(getAuth(getApp()));
+  const app = useMemo(() => getApp(), []);
+  const store = useMemo(() => getFirestore(app), [app]);
+  const auth = useMemo(() => getAuth(app), [app]);
 
   return { app, store, auth };
 };
