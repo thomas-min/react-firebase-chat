@@ -6,7 +6,7 @@ import { roomState } from '~/app/atoms/room-state';
 import { ROUTES } from '~/app/configs/app';
 import { getFirebase } from '~/app/utils/firebase';
 import { createRoom } from '~/features/chat/services/rooms';
-import { User } from '~/types';
+import { User } from '~/app/types';
 import { searchResultState } from '../atoms/search-result-state';
 
 const GuideIcon = () => {

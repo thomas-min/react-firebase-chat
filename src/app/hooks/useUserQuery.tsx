@@ -11,7 +11,7 @@ import {
 import { useCallback, useMemo } from 'react';
 import { RESOURCES } from '~/app/configs/resources';
 import { getFirebase } from '~/app/utils/firebase';
-import { User } from '~/types';
+import { User } from '~/app/types';
 
 export const useUserQuery = () => {
   const { store, auth } = getFirebase();

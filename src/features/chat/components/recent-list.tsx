@@ -1,35 +1,51 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '~/app/configs/app';
 import { SubTitle } from '~/app/components/sub-title';
-import { useRoomsData } from '../hooks/useRoomsData';
+import { useRoomData } from '../hooks/useRoomData';
+import { Room, User } from '~/app/types';
+import { useUserQuery } from '~/app/hooks/useUserQuery';
+import { getFirebase } from '~/app/utils/firebase';
 
-interface RecentItemProps {
-  imgSrc: string;
-  name: string;
-  message: string;
-  date: Date;
+interface RecentRoomProps {
+  room: Room;
 }
 
-const RecentItem: React.FC<RecentItemProps> = ({
-  imgSrc,
-  name,
-  message,
-  date,
-}) => {
-  const navigate = useNavigate();
+const RecentRoom: React.FC<RecentRoomProps> = ({ room }) => {
+  const { auth } = getFirebase();
+  const { getUser } = useUserQuery();
 
+  const { users: userIdMap } = room;
+  const userIds = Object.keys(userIdMap);
+
+  const currentUserId = auth.currentUser?.providerData[0].uid;
+  const partnerId = userIds.find((id) => id !== currentUserId);
+
+  const [partner, setPartner] = useState<User>();
+  useEffect(() => {
+    const getPartner = async () => {
+      if (partnerId) {
+        const partner = await getUser(partnerId);
+        setPartner(partner);
+      }
+    };
+    getPartner();
+  }, [getUser, partnerId]);
+
+  const navigate = useNavigate();
   const handleClick = useCallback(() => {
     navigate(ROUTES.CHAT);
   }, [navigate]);
+
+  if (!partner) return null;
 
   return (
     <Flex w='full' my='6' cursor='pointer' onClick={handleClick}>
       <Image
         borderRadius='100'
-        src={imgSrc}
-        alt={imgSrc}
+        src={partner.photoURL!}
+        alt={partner.photoURL!}
         boxSize='12'
         mx='auto'
         mr='4'
@@ -37,23 +53,23 @@ const RecentItem: React.FC<RecentItemProps> = ({
       <Box flexGrow='1'>
         <Flex>
           <Text flexGrow='1' color='teal' fontWeight='600'>
-            {name}
+            {partner.displayName}
           </Text>
-          <Text>{date.getHours() + ':' + date.getMinutes()}</Text>
+          {/* <Text>{date.getHours() + ':' + date.getMinutes()}</Text> */}
         </Flex>
-        <Text>{message}</Text>
+        {/* <Text>{message}</Text> */}
       </Box>
     </Flex>
   );
 };
 
 export const RecentList = () => {
-  const rooms = useRoomsData();
+  const rooms = useRoomData();
 
   return (
     <Box w='full'>
       <SubTitle value='Recent' />
-      {rooms && rooms.map((room) => <div key={room.uid}>{room.uid}</div>)}
+      {rooms && rooms.map((room) => <RecentRoom key={room.uid} room={room} />)}
     </Box>
   );
 };

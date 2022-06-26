@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { roomState } from '~/app/atoms/room-state';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
-import { Message as MessageDto } from '~/types';
+import { Message as MessageDto } from '~/app/types';
 import { useMessageData } from '../hooks/useMessageData';
 
 interface HeaderProps {

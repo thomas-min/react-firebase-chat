@@ -1,5 +1,5 @@
 import { getFirebase } from '~/app/utils/firebase';
-import { Message, Room } from '~/types';
+import { Message, Room } from '~/app/types';
 import { v4 as uuid } from 'uuid';
 import { RESOURCES } from '~/app/configs/resources';
 import {

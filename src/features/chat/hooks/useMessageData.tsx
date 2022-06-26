@@ -7,7 +7,7 @@ import {
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { RESOURCES } from '~/app/configs/resources';
 import { getFirebase } from '~/app/utils/firebase';
-import { Message, Room } from '~/types';
+import { Message, Room } from '~/app/types';
 
 export const useMessageData = (room: Room | null) => {
   const { store } = getFirebase();

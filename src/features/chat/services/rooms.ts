@@ -12,7 +12,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { RESOURCES } from '~/app/configs/resources';
 import { getFirebase } from '~/app/utils/firebase';
-import { Room, User } from '~/types';
+import { Room, User } from '~/app/types';
 
 const link = async (user: User, room: Room): Promise<void> => {
   const { store } = getFirebase();
