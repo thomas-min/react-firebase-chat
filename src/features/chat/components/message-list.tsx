@@ -6,7 +6,9 @@ import { roomState } from '~/app/atoms/room-state';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
 import { Message as MessageDto } from '~/app/types';
+import { getCurrentUserId } from '~/app/utils/firebase';
 import { useMessageData } from '../hooks/useMessageData';
+import { getFriend } from '../utils/getFriend';
 
 interface HeaderProps {
   imgSrc: string;
@@ -48,13 +50,18 @@ interface MessageProps {
   children?: React.ReactNode;
 }
 
-// TODO: 보낸 메시지와 받은 메시지 구분
 const Message: React.FC<MessageProps> = ({ message }) => {
   const { text } = message;
+  const isMyMessage = getCurrentUserId() === message.user.uid;
 
   return (
-    <Flex w='full' justify={'start'} align={'center'}>
-      <Box borderRadius={'base'} bg='gray.100' p='2' m='1'>
+    <Flex w='full' justify={isMyMessage ? 'end' : 'start'} align={'center'}>
+      <Box
+        borderRadius={'base'}
+        p='2'
+        m='1'
+        bg={isMyMessage ? 'teal.100' : 'gray.100'}
+      >
         {text}
       </Box>
     </Flex>
@@ -64,13 +71,16 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 export const MessageList = () => {
   const room = useRecoilValue(roomState);
   const messages = useMessageData(room);
+  const friend = getFriend(room);
+
+  if (!friend) return null;
 
   return (
     <Box px='6' flexGrow='1' overflow='scroll'>
       <Header
-        name='Dan Abramov'
-        imgSrc='https://bit.ly/dan-abramov'
-        email={'dan@gmail.com'}
+        name={friend.displayName!}
+        imgSrc={friend.photoURL!}
+        email={friend.email!}
       />
       <Box>
         {messages &&

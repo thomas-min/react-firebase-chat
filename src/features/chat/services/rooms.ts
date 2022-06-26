@@ -39,14 +39,14 @@ const link = async (user: User, room: Room): Promise<void> => {
   await batch.commit();
 };
 
-const checkExisting = async (from: User, to: User): Promise<Room | null> => {
+const checkExisting = async (me: User, friend: User): Promise<Room | null> => {
   const { store } = getFirebase();
   const _collection = collection(store, 'rooms') as CollectionReference<Room>;
 
   const _query = query(
     _collection,
-    where(`${RESOURCES.USERS}.${from.uid}`, '==', from),
-    where(`${RESOURCES.USERS}.${to.uid}`, `==`, to),
+    where(`${RESOURCES.USERS}.${me.uid}`, '==', me),
+    where(`${RESOURCES.USERS}.${friend.uid}`, `==`, friend),
   );
 
   const _snapshot = await getDocs(_query);
@@ -55,18 +55,18 @@ const checkExisting = async (from: User, to: User): Promise<Room | null> => {
   return _snapshot.docs[0].data();
 };
 
-export const createRoom = async (from: User, to: User): Promise<Room> => {
+export const createRoom = async (me: User, friend: User): Promise<Room> => {
   const { store } = getFirebase();
 
-  const existingRoom = await checkExisting(from, to);
+  const existingRoom = await checkExisting(me, friend);
   if (existingRoom) return existingRoom;
 
   const uid = uuid();
   const _document = doc(store, RESOURCES.ROOMS, uid) as DocumentReference<Room>;
-  const room: Room = { uid, users: { [from.uid]: from, [to.uid]: to } };
+  const room: Room = { uid, users: { [me.uid]: me, [friend.uid]: friend } };
   await setDoc(_document, room);
 
-  await Promise.all([link(from, room), link(to, room)]);
+  await Promise.all([link(me, room), link(friend, room)]);
 
   return room;
 };
