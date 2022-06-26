@@ -1,17 +1,12 @@
 import { Box, CloseButton, Flex, Image, Text } from '@chakra-ui/react';
-import {
-  collection,
-  CollectionReference,
-  limit,
-  query,
-} from 'firebase/firestore';
 import { useCallback } from 'react';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { roomState } from '~/app/atoms/room-state';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
-import { getFirebase } from '~/app/utils/firebase';
 import { Message as MessageDto } from '~/types';
+import { useMessagesData } from '../hooks/useMessageData';
 
 interface HeaderProps {
   imgSrc: string;
@@ -67,14 +62,8 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 };
 
 export const MessageList = () => {
-  const { store } = getFirebase();
-  const messagesCollection = collection(
-    store,
-    'messages',
-  ) as CollectionReference<MessageDto>;
-
-  const messagesQuery = query(messagesCollection, limit(25));
-  const [messagesSnapshot] = useCollection(messagesQuery);
+  const room = useRecoilValue(roomState);
+  const messages = useMessagesData(room);
 
   return (
     <Box px='6' flexGrow='1' overflow='scroll'>
@@ -84,9 +73,10 @@ export const MessageList = () => {
         email={'dan@gmail.com'}
       />
       <Box>
-        {messagesSnapshot?.docs.map((doc) => (
-          <Message key={doc.id} message={doc.data()} />
-        ))}
+        {messages &&
+          messages.map((message) => (
+            <Message key={message.uid} message={message} />
+          ))}
       </Box>
     </Box>
   );

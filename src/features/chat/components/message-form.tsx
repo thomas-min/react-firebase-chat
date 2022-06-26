@@ -1,15 +1,23 @@
 import { Button, Flex, Input } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { roomState } from '~/app/atoms/room-state';
+import { sendMessage } from '../services/messages';
 
 export const MessageForm = () => {
+  const room = useRecoilValue(roomState);
   const [formValue, setFormValue] = useState('');
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: implement create message
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!room || !formValue) return;
 
-    setFormValue('');
-  }, []);
+      sendMessage(formValue, room);
+      setFormValue('');
+    },
+    [formValue, room],
+  );
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
