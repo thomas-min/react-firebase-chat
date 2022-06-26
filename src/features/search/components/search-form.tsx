@@ -1,7 +1,7 @@
 import { Box, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { useUserQuery } from '../hooks/useUserQuery';
+import { useUserQuery } from '../../../app/hooks/useUserQuery';
 import { searchResultState } from '../atoms/search-result-state';
 import { useSetRecoilState } from 'recoil';
 
