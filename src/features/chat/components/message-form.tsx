@@ -1,33 +1,15 @@
 import { Button, Flex, Input } from '@chakra-ui/react';
-import { addDoc, collection, CollectionReference } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
-import { useFireBase } from '~/app/hooks/useFirebase';
-import { Message } from '~/types';
 
 export const MessageForm = () => {
-  const { auth, store } = useFireBase();
-  const messagesCollection = collection(
-    store,
-    'messages',
-  ) as CollectionReference<Message>;
   const [formValue, setFormValue] = useState('');
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: implement create message
 
-      const { uid, photoURL } = auth.currentUser!;
-
-      await addDoc(messagesCollection, {
-        text: formValue,
-        uid,
-        photoURL,
-      });
-
-      setFormValue('');
-    },
-    [auth.currentUser, formValue, messagesCollection],
-  );
+    setFormValue('');
+  }, []);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
