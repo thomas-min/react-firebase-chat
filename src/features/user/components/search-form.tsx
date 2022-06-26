@@ -2,10 +2,13 @@ import { Box, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useUserQuery } from '../hooks/useUserQuery';
+import { searchResultState } from '../atoms/search-result-state';
+import { useSetRecoilState } from 'recoil';
 
 export const UserSearchForm = () => {
   const { getUsers } = useUserQuery();
   const [inputValue, setInputValue] = useState('');
+  const setSearchResult = useSetRecoilState(searchResultState);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -15,10 +18,9 @@ export const UserSearchForm = () => {
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const users = await getUsers(inputValue);
-      // TODO: remove
-      console.log(users);
+      setSearchResult(users);
     },
-    [getUsers, inputValue],
+    [getUsers, inputValue, setSearchResult],
   );
 
   return (

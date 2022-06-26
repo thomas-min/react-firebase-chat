@@ -1,4 +1,7 @@
 import { Box, Center, HStack, Text, Image } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { searchResultState } from '../atoms/search-result-state';
 
 const GuideIcon = () => {
   return (
@@ -43,21 +46,18 @@ const UserIcon: React.FC<UserIconProps> = ({ imgSrc, name }) => {
 };
 
 export const UserSearchResult = () => {
+  const [searchResult, setSearchResult] = useRecoilState(searchResultState);
+
+  useEffect(() => {
+    setSearchResult([]);
+  }, [setSearchResult]);
+
   return (
     <HStack my={6} overflow={'scroll'}>
       <GuideIcon />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
-      <UserIcon imgSrc='https://bit.ly/dan-abramov' name='Dan Abramov' />
+      {searchResult.map((el) => (
+        <UserIcon key={el.uid} imgSrc={el.photoURL!} name={el.displayName!} />
+      ))}
     </HStack>
   );
 };

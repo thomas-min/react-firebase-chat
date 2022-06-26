@@ -13,7 +13,7 @@ import { useCallback, useState } from 'react';
 import { useFireBase } from '~/app/hooks/useFirebase';
 
 export const useUserQuery = () => {
-  const { store } = useFireBase();
+  const { store, auth } = useFireBase();
   const [_collection] = useState(
     collection(store, 'users') as CollectionReference<UserInfo>,
   );
@@ -35,9 +35,11 @@ export const useUserQuery = () => {
       const _query = query(_collection, where('email', '==', email));
       const snapshot = await getDocs(_query);
 
-      return snapshot.docs.map((el) => el.data());
+      return snapshot.docs
+        .map((el) => el.data())
+        .filter((el) => el.email !== auth.currentUser?.email);
     },
-    [_collection],
+    [_collection, auth.currentUser?.email],
   );
 
   return { upsertUser, getUsers };
