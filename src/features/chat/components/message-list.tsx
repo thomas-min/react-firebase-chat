@@ -6,7 +6,7 @@ import { roomState } from '~/app/atoms/room-state';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
 import { Message as MessageDto } from '~/types';
-import { useMessagesData } from '../hooks/useMessageData';
+import { useMessageData } from '../hooks/useMessageData';
 
 interface HeaderProps {
   imgSrc: string;
@@ -63,7 +63,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
 
 export const MessageList = () => {
   const room = useRecoilValue(roomState);
-  const messages = useMessagesData(room);
+  const messages = useMessageData(room);
 
   return (
     <Box px='6' flexGrow='1' overflow='scroll'>

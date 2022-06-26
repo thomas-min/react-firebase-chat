@@ -39,10 +39,7 @@ const link = async (user: User, room: Room): Promise<void> => {
   await batch.commit();
 };
 
-const checkExisting = async (
-  from: User,
-  to: User,
-): Promise<Room | undefined> => {
+const checkExisting = async (from: User, to: User): Promise<Room | null> => {
   const { store } = getFirebase();
   const _collection = collection(store, 'rooms') as CollectionReference<Room>;
 
@@ -54,7 +51,7 @@ const checkExisting = async (
 
   const _snapshot = await getDocs(_query);
 
-  if (_snapshot.empty) return;
+  if (_snapshot.empty) return null;
   return _snapshot.docs[0].data();
 };
 

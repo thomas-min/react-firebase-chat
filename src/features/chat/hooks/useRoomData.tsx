@@ -4,7 +4,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { getFirebase } from '~/app/utils/firebase';
 import { Room } from '~/types';
 
-export const useRoomsData = () => {
+export const useRoomData = () => {
   const { store, auth } = getFirebase();
   const uid = auth.currentUser?.providerData[0].uid;
 
