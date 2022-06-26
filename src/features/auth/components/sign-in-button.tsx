@@ -3,11 +3,10 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useCallback } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { getFirebase } from '~/app/utils/firebase';
-import { useUserQuery } from '~/features/user/hooks/useUserQuery';
+import { upsertUser } from '../services/user';
 
 export const SignInButton: React.FC = () => {
   const { auth } = getFirebase();
-  const { upsertUser } = useUserQuery();
 
   const handleClick = useCallback(async () => {
     const provider = new GoogleAuthProvider();
@@ -16,7 +15,7 @@ export const SignInButton: React.FC = () => {
     const user = signInResult.user.providerData[0];
 
     upsertUser(user);
-  }, [auth, upsertUser]);
+  }, [auth]);
 
   return (
     <Button
