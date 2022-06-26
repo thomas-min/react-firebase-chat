@@ -3,11 +3,11 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useCallback } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { useFireBase } from '~/app/hooks/useFirebase';
-import { useUser } from '~/features/user/hooks/useUser';
+import { useUserQuery } from '~/features/user/hooks/useUserQuery';
 
 export const SignInButton: React.FC = () => {
   const { auth } = useFireBase();
-  const { upsertUser } = useUser();
+  const { upsertUser } = useUserQuery();
 
   const handleClick = useCallback(async () => {
     const provider = new GoogleAuthProvider();
@@ -19,7 +19,12 @@ export const SignInButton: React.FC = () => {
   }, [auth, upsertUser]);
 
   return (
-    <Button onClick={handleClick} colorScheme='gray' variant='outline' leftIcon={<FaGoogle />}>
+    <Button
+      onClick={handleClick}
+      colorScheme='gray'
+      variant='outline'
+      leftIcon={<FaGoogle />}
+    >
       Continue with google
     </Button>
   );

@@ -1,10 +1,10 @@
 import { Box, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { useUser } from '../hooks/useUser';
+import { useUserQuery } from '../hooks/useUserQuery';
 
 export const UserSearchForm = () => {
-  const { getUsers } = useUser();
+  const { getUsers } = useUserQuery();
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,11 @@ export const UserSearchForm = () => {
     <Box my={4}>
       <form onSubmit={handleSubmit}>
         <InputGroup>
-          <Input placeholder='Search user by email' value={inputValue} onChange={handleChange} />
+          <Input
+            placeholder='Search user by email'
+            value={inputValue}
+            onChange={handleChange}
+          />
           <InputRightElement children={<FaSearch />} />
         </InputGroup>
       </form>
