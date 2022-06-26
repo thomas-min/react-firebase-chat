@@ -8,6 +8,8 @@ import { Room } from '~/app/types';
 import { getFriend } from '../utils/getFriend';
 import { useSetRecoilState } from 'recoil';
 import { roomState } from '~/app/atoms/room-state';
+import { useMessageData } from '../hooks/useMessageData';
+import { parseDate } from '../utils/parseDate';
 
 interface RecentRoomProps {
   room: Room;
@@ -17,12 +19,18 @@ const FriendItem: React.FC<RecentRoomProps> = ({ room }) => {
   const friend = getFriend(room);
   const navigate = useNavigate();
   const setRoom = useSetRecoilState(roomState);
+  const messages = useMessageData(room);
+
   const handleClick = useCallback(() => {
     setRoom(room);
     navigate(ROUTES.CHAT);
   }, [navigate, room, setRoom]);
 
   if (!friend) return null;
+
+  const recentMessage = messages
+    ?.reverse()
+    .find((message) => message.user.uid === friend.uid);
 
   return (
     <Flex w='full' my='6' cursor='pointer' onClick={handleClick}>
@@ -39,9 +47,9 @@ const FriendItem: React.FC<RecentRoomProps> = ({ room }) => {
           <Text flexGrow='1' color='teal' fontWeight='600'>
             {friend.displayName}
           </Text>
-          {/* <Text>{date.getHours() + ':' + date.getMinutes()}</Text> */}
+          <Text>{parseDate(recentMessage?.createdAt.toDate())}</Text>
         </Flex>
-        {/* <Text>{message}</Text> */}
+        <Text>{recentMessage?.text}</Text>
       </Box>
     </Flex>
   );
