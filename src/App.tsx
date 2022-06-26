@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PageContainer } from './app/components/page-container';
-import RequireAuth from './app/components/require-auth';
+import RequireAuth from './features/auth/components/require-auth';
 import { ROUTES } from './app/configs/app';
 import { ChatPage } from './routes/chat';
 import { HomePage } from './routes/home';

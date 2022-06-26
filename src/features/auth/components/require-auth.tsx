@@ -1,7 +1,7 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate, useLocation } from 'react-router-dom';
-import { ROUTES } from '../configs/app';
-import { useFireBase } from '../hooks/useFirebase';
+import { ROUTES } from '../../../app/configs/app';
+import { useFireBase } from '../../../app/hooks/useFirebase';
 
 interface RequireAuthProps {
   children: React.ReactNode;
