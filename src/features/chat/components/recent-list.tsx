@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '~/app/configs/app';
+import { SubTitle } from '~/app/components/sub-title';
 
 interface RecentItemProps {
   imgSrc: string;
@@ -35,7 +36,8 @@ const RecentItem: React.FC<RecentItemProps> = ({ imgSrc, name, message, date }) 
 
 export const RecentList = () => {
   return (
-    <Box w='full' overflow='hidden'>
+    <Box w='full'>
+      <SubTitle value='Recent' />
       <RecentItem
         imgSrc='https://bit.ly/dan-abramov'
         name='Dan Abramov'

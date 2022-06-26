@@ -13,6 +13,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Sticky } from '~/app/components/sticky';
 import { ROUTES } from '~/app/configs/app';
+import { useFireBase } from '~/app/hooks/useFirebase';
 import { Message } from '~/types';
 
 interface HeaderProps {
@@ -62,7 +63,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 };
 
 const ChatMessageList = () => {
-  const messagesCollection = collection(getFirestore(), 'messages') as CollectionReference<Message>;
+  const { store } = useFireBase();
+  const messagesCollection = collection(store, 'messages') as CollectionReference<Message>;
 
   const messagesQuery = query(messagesCollection, limit(25));
   const [messagesSnapshot] = useCollection(messagesQuery);
@@ -76,14 +78,15 @@ const ChatMessageList = () => {
 };
 
 export const ChatRoom = () => {
-  const messagesCollection = collection(getFirestore(), 'messages') as CollectionReference<Message>;
+  const { auth, store } = useFireBase();
+  const messagesCollection = collection(store, 'messages') as CollectionReference<Message>;
   const [formValue, setFormValue] = useState('');
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
 
-      const { uid, photoURL } = getAuth().currentUser!;
+      const { uid, photoURL } = auth.currentUser!;
 
       await addDoc(messagesCollection, {
         text: formValue,
@@ -93,7 +96,7 @@ export const ChatRoom = () => {
 
       setFormValue('');
     },
-    [formValue, messagesCollection],
+    [auth.currentUser, formValue, messagesCollection],
   );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

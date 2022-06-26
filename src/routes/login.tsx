@@ -1,18 +1,19 @@
 import { Box, Center, Divider, Text } from '@chakra-ui/react';
-import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SignInButton } from '~/features/auth/components/sign-in-button';
+import { useFireBase } from '~/app/hooks/useFirebase';
 
 export const LoginPage: React.FC = () => {
+  const { auth } = useFireBase();
   const location = useLocation();
   const navigate = useNavigate();
   // type assert as any due to react router type error
   const state = location.state as any;
   const from = state?.from.pathname || '/';
 
-  const [user] = useAuthState(getAuth());
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
