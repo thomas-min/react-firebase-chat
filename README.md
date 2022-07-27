@@ -1,5 +1,7 @@
 # React Firebase Chat
 
+[Sample Server](https://react-firebase-chat-963e5.web.app/)
+
 ## 프로젝트 설명
 
 ### 사용 기술
